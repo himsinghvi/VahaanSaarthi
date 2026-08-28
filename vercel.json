@@ -1,15 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm install --prefix frontend && npm run build --prefix frontend",
-  "outputDirectory": "frontend/dist",
+  "framework": null,
+  "buildCommand": "node scripts/vercel-build.mjs",
   "functions": {
-    "api/index.py": {
+    "main.py": {
       "maxDuration": 60,
-      "excludeFiles": "{frontend/**,.venv/**,**/__pycache__/**,**/*.pyc,**/.git/**}"
+      "excludeFiles": "{frontend/node_modules/**,frontend/src/**,.venv/**,**/__pycache__/**,**/*.pyc,**/.git/**,api/**}"
     }
-  },
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  }
 }

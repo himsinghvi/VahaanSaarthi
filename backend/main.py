@@ -607,3 +607,11 @@ def rto_agent_detail(agent_id: str):
     if not a:
         raise HTTPException(404, "Agent not found")
     return a
+
+
+# Vercel: promote built React app to CDN; /api/* routes above take priority.
+from pathlib import Path
+
+_dist = Path(__file__).resolve().parent.parent / "frontend" / "dist"
+if _dist.is_dir() and hasattr(app, "frontend"):
+    app.frontend("/", directory=str(_dist), fallback="index.html")
