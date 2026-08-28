@@ -6,8 +6,9 @@
       "framework": "vite"
     },
     "backend": {
-      "root": "backend/",
-      "entrypoint": "main:app"
+      "root": "./",
+      "entrypoint": "backend.main:app",
+      "excludeFiles": "{frontend/**,.venv/**,**/__pycache__/**,**/*.pyc,**/.git/**,public/**}"
     }
   },
   "rewrites": [
