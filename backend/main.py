@@ -607,11 +607,3 @@ def rto_agent_detail(agent_id: str):
     if not a:
         raise HTTPException(404, "Agent not found")
     return a
-
-
-# Serve React SPA on Vercel — API routes above take priority (see Vercel FastAPI docs).
-from pathlib import Path
-
-_frontend_dist = Path(__file__).resolve().parent.parent / "frontend" / "dist"
-if _frontend_dist.is_dir() and hasattr(app, "frontend"):
-    app.frontend("/", directory=str(_frontend_dist), fallback="index.html")

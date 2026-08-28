@@ -8,7 +8,7 @@ Write-Host "Starting Vaahan Saarthi (full_app)..." -ForegroundColor Magenta
 
 Start-Process powershell -ArgumentList @(
   "-NoExit", "-Command",
-  "cd `"$root`"; if (!(Test-Path .venv)) { python -m venv .venv; .\.venv\Scripts\python.exe -m pip install -r requirements.txt }; .\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8020 --reload"
+  "cd `"$root`"; if (!(Test-Path .venv)) { python -m venv .venv; .\.venv\Scripts\python.exe -m pip install -r requirements.txt }; .\.venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8020 --reload"
 )
 
 Start-Process powershell -ArgumentList @(
