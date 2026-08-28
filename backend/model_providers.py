@@ -110,7 +110,7 @@ def sanitize_config(config: dict) -> dict:
 
 
 def build_model_from_request(provider: str, label: str, family: str, description: str, config: dict):
-    from .models_registry import ModelOption
+    from models_registry import ModelOption
 
     schema = PROVIDER_SCHEMAS.get(provider)
     if not schema:

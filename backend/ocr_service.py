@@ -10,7 +10,7 @@ import logging
 import mimetypes
 import urllib.request
 
-from .config import get_settings
+from config import get_settings
 
 log = logging.getLogger(__name__)
 

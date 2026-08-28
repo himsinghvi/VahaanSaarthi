@@ -4,8 +4,8 @@ from __future__ import annotations
 import hashlib
 from fastapi import Depends, Header, HTTPException
 
-from .store import store
-from .credentials import ACCOUNTS, RESERVED_EMAILS
+from store import store
+from credentials import ACCOUNTS, RESERVED_EMAILS
 
 
 def stable_user_id(email: str) -> str:

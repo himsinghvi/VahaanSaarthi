@@ -9,7 +9,7 @@ import urllib.parse
 import urllib.request
 from dataclasses import dataclass
 
-from .config import get_settings
+from config import get_settings
 
 
 @dataclass

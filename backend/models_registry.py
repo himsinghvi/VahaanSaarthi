@@ -6,7 +6,7 @@ the AZURE_OPENAI_DEPLOYMENT env var.
 """
 from __future__ import annotations
 from dataclasses import dataclass, field
-from .config import get_settings
+from config import get_settings
 
 
 @dataclass

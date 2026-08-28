@@ -3,8 +3,8 @@ from __future__ import annotations
 
 from fastapi import HTTPException
 
-from .store import store
-from .schemas import Document
+from store import store
+from schemas import Document
 
 
 def _find(user_id: str, doc_id: str) -> Document:

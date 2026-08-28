@@ -1,7 +1,7 @@
 """In-memory store with per-user row-level isolation (RLS)."""
 from __future__ import annotations
 import uuid
-from .schemas import (
+from schemas import (
     Vehicle, Compliance, Document, Challan, Expense, TimelineEvent, Reminder,
 )
 
@@ -49,7 +49,7 @@ class Store:
         return self.users[user_id]
 
     def _seed_demo_user(self) -> None:
-        from .credentials import (
+        from credentials import (
             ADMIN_USER_ID, ADMIN_EMAIL, ADMIN_PASSWORD,
             DEMO_USER_ID, DEMO_EMAIL, DEMO_PASSWORD,
             PRIYA_USER_ID, PRIYA_EMAIL, PRIYA_PASSWORD,

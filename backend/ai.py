@@ -14,11 +14,11 @@ import re
 from dataclasses import dataclass, field
 from typing import Optional
 
-from .config import get_settings
-from .schemas import ActionCard, ChatResponse, Source
-from .store import store
-from .search import web_search, format_for_prompt
-from .models_registry import registry
+from config import get_settings
+from schemas import ActionCard, ChatResponse, Source
+from store import store
+from search import web_search, format_for_prompt
+from models_registry import registry
 
 
 INTENTS = [

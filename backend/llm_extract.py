@@ -4,7 +4,7 @@ import json
 import re
 from typing import Any
 
-from .config import get_settings
+from config import get_settings
 
 
 def _azure_client():

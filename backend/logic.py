@@ -1,6 +1,6 @@
 """Deterministic domain logic: calculators, RTO workflows, buy advisor."""
 from __future__ import annotations
-from .schemas import (
+from schemas import (
     BuyAdvisorRequest, BuyAdvisorResponse, VehicleMatch,
     FuelCalcRequest, FuelCalcResponse, OnRoadRequest, OnRoadResponse,
     EmiRequest, EmiResponse, RtoWorkflowRequest, RtoWorkflowResponse,

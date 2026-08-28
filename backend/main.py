@@ -1,19 +1,27 @@
 """Vaahan Saarthi FastAPI application — Vehicle Ownership Operating System for India."""
 from __future__ import annotations
 import logging
+import sys
 import uuid
+from pathlib import Path
+
+# Vercel Services loads backend/main.py as a flat module; ensure sibling imports resolve.
+_BACKEND_DIR = Path(__file__).resolve().parent
+if str(_BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(_BACKEND_DIR))
+
 from fastapi import FastAPI, HTTPException, UploadFile, File, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 
-from .config import get_settings
-from .store import store
-from . import logic
-from .ai import orchestrator
-from . import documents_service
-from . import vehicle_intel
-from .rto_codes import normalize_reg
-from .schemas import (
+from config import get_settings
+from store import store
+import logic
+from ai import orchestrator
+import documents_service
+import vehicle_intel
+from rto_codes import normalize_reg
+from schemas import (
     Vehicle, Compliance, VehicleCreateByNumber, VehicleCreateManual, VehicleUpdate,
     Document, Expense, ChatRequest, ChatResponse, Reminder,
     BuyAdvisorRequest, BuyAdvisorResponse, FuelCalcRequest, FuelCalcResponse,
@@ -21,8 +29,8 @@ from .schemas import (
     RtoWorkflowRequest, RtoWorkflowResponse,
     AuthLoginRequest, AuthSignupRequest,
 )
-from .auth_rls import require_user, require_admin, stable_user_id, public_user, verify_login
-from .credentials import RESERVED_EMAILS, DEMO_USER_ID
+from auth_rls import require_user, require_admin, stable_user_id, public_user, verify_login
+from credentials import RESERVED_EMAILS, DEMO_USER_ID
 
 log = logging.getLogger(__name__)
 settings = get_settings()
@@ -47,7 +55,7 @@ def _normalize_fuel(raw: str) -> str:
 
 
 def _vehicle_from_extracted(user_id: str, extracted: dict, *, owner_fallback: str) -> Vehicle:
-    from .rto_codes import parse_rto
+    from rto_codes import parse_rto
     reg = normalize_reg(extracted.get("registration_number") or "")
     fuel = _normalize_fuel(str(extracted.get("fuel_type") or "Petrol"))
     rto_info = parse_rto(reg)
@@ -470,7 +478,7 @@ def chat(req: ChatRequest, user_id: str = Depends(require_user)):
 @app.get("/api/ai/search")
 def ai_search(q: str, max_results: int = 5):
     """Direct live web search (Tavily → Google CSE) for real-time vehicle info."""
-    from .search import web_search
+    from search import web_search
     answer, results = web_search(q, max_results=max_results)
     return {
         "query": q,
@@ -481,8 +489,8 @@ def ai_search(q: str, max_results: int = 5):
 
 
 # ---------- LLM model selection ----------
-from .models_registry import registry, ModelOption
-from . import model_providers
+from models_registry import registry, ModelOption
+import model_providers
 from pydantic import BaseModel as _BM
 
 
@@ -573,7 +581,7 @@ def delete_model(model_id: str, _admin: str = Depends(require_admin)):
 
 
 # ---------- RTO Agents directory ----------
-from . import agents_directory as adir
+import agents_directory as adir
 
 
 @app.get("/api/rto-agents")

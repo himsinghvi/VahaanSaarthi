@@ -4,10 +4,10 @@ import re
 from datetime import date, timedelta
 from typing import Any
 
-from .llm_extract import extract_json
-from .ocr_service import ocr_bytes
-from .rto_codes import find_reg_in_text, normalize_reg, parse_rto
-from .search import format_for_prompt, web_search
+from llm_extract import extract_json
+from ocr_service import ocr_bytes
+from rto_codes import find_reg_in_text, normalize_reg, parse_rto
+from search import format_for_prompt, web_search
 
 # Public reference records (demo plates + commonly searched examples)
 KNOWN_REGISTRY: dict[str, dict[str, Any]] = {
