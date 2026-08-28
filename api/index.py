@@ -1,11 +1,7 @@
-"""Vercel serverless entry — exposes the FastAPI app at /api/*."""
-from __future__ import annotations
+"""Legacy Vercel /api entry — re-exports the FastAPI app from app.main.
 
-import sys
-from pathlib import Path
+Prefer app/main.py as the primary entrypoint (see pyproject.toml).
+"""
+from app.main import app as fastapi_app
 
-ROOT = Path(__file__).resolve().parent.parent
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
-from app.main import app  # noqa: E402, F401
+app = fastapi_app
