@@ -10,7 +10,7 @@ import { useDemoTour } from "../context/DemoTourContext";
 type Mode = "login" | "signup";
 
 const HERO_LINE =
-  "Meet Vaahan Saarthi — India's AI-powered vehicle companion. One app for your entire vehicle journey — from buying, to registering, to maintaining, insuring, and eventually selling or scrapping.";
+  "India's AI vehicle companion — one app for the full ownership journey: buy, register, maintain, insure, and when the time comes, sell or scrap.";
 
 const DEMO_USERS = [
   {
