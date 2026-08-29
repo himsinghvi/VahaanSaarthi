@@ -120,9 +120,6 @@ export default function Auth() {
             <span>vehicle owner</span>
           </h1>
           <p className="auth-hero__tagline">{HERO_LINE}</p>
-          <p className="auth-hero__sub text-muted-2">
-            VAHAN · Sarathi · DigiLocker aware
-          </p>
 
           <div className="auth-hero__tour">
             <DemoTourTrigger />
