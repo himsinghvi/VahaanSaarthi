@@ -2,7 +2,8 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import BrandName from "./BrandName";
+import AppLogo from "./AppLogo";
+import DemoTourTrigger from "./DemoTourTrigger";
 
 const PRIMARY = [
   { to: "/dashboard", label: "Dashboard" },
@@ -46,8 +47,7 @@ export default function Navbar() {
     <nav className="nav">
       <div className="container nav__bar">
         <Link to="/dashboard" className="nav__brand">
-          <span className="nav__logo" aria-hidden>🚗</span>
-          <span><BrandName /></span>
+          <AppLogo variant="full" height={56} className="nav__logo-img" />
         </Link>
 
         {!onWelcome && (
@@ -98,6 +98,7 @@ export default function Navbar() {
             </div>
 
             <div className="nav__actions d-none d-lg-flex">
+              <DemoTourTrigger compact />
               {user && <span className="pill nav__user">👋 {user.name.split(" ")[0]}{isAdmin ? " · Admin" : ""}</span>}
               {isAdmin && (
                 <NavLink to="/settings" className={({ isActive }) => `navlink ${isActive ? "active" : ""}`} title="LLM Admin Settings">
@@ -142,9 +143,12 @@ export default function Navbar() {
                 <NavLink to="/settings" className="navlink" onClick={() => setOpen(false)}>⚙️ LLM Settings</NavLink>
               )}
               {!onWelcome && (
-                <button type="button" className="navlink nav__mobile-logout" onClick={() => { logout(); setOpen(false); }}>
-                  Log out
-                </button>
+                <>
+                  <DemoTourTrigger className="nav__mobile-tour" />
+                  <button type="button" className="navlink nav__mobile-logout" onClick={() => { logout(); setOpen(false); }}>
+                    Log out
+                  </button>
+                </>
               )}
             </div>
           </motion.div>

@@ -268,6 +268,21 @@ class EmiResponse(BaseModel):
     total_payable: int
 
 
+class DealerQuoteRequest(BaseModel):
+    dealer_id: str
+    name: str
+    phone: str
+    message: str = ""
+    vehicle_interest: str = ""
+
+
+class DealerQuoteResponse(BaseModel):
+    ok: bool
+    reference: str = ""
+    dealer_name: str = ""
+    message: str
+
+
 # ---------- RTO workflow ----------
 class RtoWorkflowRequest(BaseModel):
     service: str

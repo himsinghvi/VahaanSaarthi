@@ -7,6 +7,8 @@ import App from "./App";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { AssistantProvider } from "./context/AssistantContext";
 import { AuthProvider } from "./context/AuthContext";
+import { DemoTourProvider } from "./context/DemoTourContext";
+import DemoTour from "./components/DemoTour";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -14,7 +16,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <HashRouter>
         <AuthProvider>
           <AssistantProvider>
-            <App />
+            <DemoTourProvider>
+              <App />
+              <DemoTour />
+            </DemoTourProvider>
           </AssistantProvider>
         </AuthProvider>
       </HashRouter>

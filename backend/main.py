@@ -26,6 +26,7 @@ from schemas import (
     Document, Expense, ChatRequest, ChatResponse, Reminder,
     BuyAdvisorRequest, BuyAdvisorResponse, FuelCalcRequest, FuelCalcResponse,
     OnRoadRequest, OnRoadResponse, EmiRequest, EmiResponse,
+    DealerQuoteRequest, DealerQuoteResponse,
     RtoWorkflowRequest, RtoWorkflowResponse,
     AuthLoginRequest, AuthSignupRequest,
 )
@@ -458,6 +459,39 @@ def onroad(req: OnRoadRequest):
 @app.post("/api/buy/emi", response_model=EmiResponse)
 def emi(req: EmiRequest):
     return logic.emi(req)
+
+
+import dealers_directory as ddir
+
+
+@app.get("/api/buy/dealers")
+def buy_dealers(
+    purchase_type: str = "used",
+    city: str | None = None,
+    budget: str | None = None,
+    query: str | None = None,
+    sort: str = "distance",
+):
+    return {
+        "dealers": ddir.list_dealers(
+            purchase_type=purchase_type,
+            city=city,
+            budget=budget,
+            query=query,
+            sort=sort,
+        ),
+        "cities": ddir.CITIES,
+    }
+
+
+@app.post("/api/buy/dealer-quote", response_model=DealerQuoteResponse)
+def buy_dealer_quote(req: DealerQuoteRequest):
+    out = ddir.request_quote(
+        req.dealer_id, req.name, req.phone, req.message, req.vehicle_interest,
+    )
+    if not out.get("ok"):
+        raise HTTPException(404, out.get("message", "Dealer not found"))
+    return out
 
 
 # ---------- RTO ----------

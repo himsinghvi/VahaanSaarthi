@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import AppLogo from "../components/AppLogo";
 import BrandName from "../components/BrandName";
 import CountUp from "react-countup";
 import { Reveal, SectionTitle } from "../components/Ui";
@@ -39,8 +40,9 @@ export default function Landing() {
           <div className="row align-items-center g-5">
             <div className="col-lg-7">
               <div className="pill mb-4">✨ India's AI Vehicle Companion</div>
+              <AppLogo variant="full" height={48} className="mb-3" />
               <h1 className="display hero-title">
-                <BrandName /><br /><span className="text-muted-2" style={{ fontSize: "0.55em", fontWeight: 600 }}>Your vehicle&apos;s AI operating system</span>
+                <span className="text-muted-2" style={{ fontSize: "0.55em", fontWeight: 600 }}>Your vehicle&apos;s AI operating system</span>
               </h1>
               <p className="text-muted-2 mt-4 hero-sub">
                 Tell us your vehicle or upload your RC — and we handle everything.

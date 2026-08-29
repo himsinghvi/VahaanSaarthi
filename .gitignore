@@ -9,7 +9,7 @@ __pycache__/
 frontend/node_modules/
 frontend/dist/
 frontend/tsconfig.tsbuildinfo
-public/
+/public/
 
 .DS_Store
 Thumbs.db

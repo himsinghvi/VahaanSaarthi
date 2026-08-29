@@ -126,7 +126,7 @@ export default function Documents() {
 
       <div className="row g-4 mt-1">
         <div className="col-lg-4" id="upload">
-          <div className="card-surface p-4">
+          <div className="card-surface p-4" data-demo-tour="docs-upload">
             <h6 style={{ fontWeight: 700 }}>Upload document</h6>
             <label className="opt d-block text-center py-4 mt-2" style={{ cursor: "pointer" }}>
               <div style={{ fontSize: "2.2rem" }}>📤</div>
@@ -174,7 +174,7 @@ export default function Documents() {
           <div className="d-flex gap-2 mb-3 flex-wrap">
             {cats.map((c) => <button key={c} type="button" className={`chip ${filter === c ? "sel" : ""}`} style={filter === c ? { borderColor: "var(--violet)", background: "rgba(139,92,246,.14)" } : {}} onClick={() => setFilter(c)}>{c}</button>)}
           </div>
-          <div className="row g-3">
+          <div className="row g-3" data-demo-tour="docs-list">
             {shown.map((d, i) => (
               <div className="col-md-6" key={d.id} id={`doc-${d.id}`}>
                 <Reveal delay={i * 0.04}>

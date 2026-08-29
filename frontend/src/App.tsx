@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Routes, Route, useLocation, useSearchParams } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AiAssistant from "./components/AiAssistant";
-import BootBanner from "./components/BootBanner";
 import AssistantRouteSync from "./components/AssistantRouteSync";
 import { RequireAuth, GuestOnly, RequireAdmin } from "./components/AuthGate";
 import { useAssistant } from "./context/AssistantContext";
@@ -42,7 +41,6 @@ function AppLayout() {
   return (
     <div className="app-shell">
       <AssistantRouteSync />
-      <BootBanner />
       <Navbar />
       <Routes>
         <Route path="/welcome" element={<Landing />} />

@@ -26,7 +26,7 @@ export default function VehicleCarousel({ vehicles }: { vehicles: Vehicle[] }) {
   const go = (next: number) => setIdx((next + vehicles.length) % vehicles.length);
 
   return (
-    <div className="vehicle-carousel">
+    <div className="vehicle-carousel" data-demo-tour="dash-carousel">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h5 style={{ fontWeight: 700, margin: 0 }}>My Garage</h5>
         <div className="d-flex align-items-center gap-2">

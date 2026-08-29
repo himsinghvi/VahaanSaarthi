@@ -68,7 +68,7 @@ export default function Dashboard() {
     <Page>
       <Reveal>
         <div className="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
-          <div>
+          <div data-demo-tour="dash-greeting">
             <h1 className="display" style={{ fontSize: "clamp(1.8rem,4vw,2.6rem)", fontWeight: 800 }}>
               {greet}, {user?.name || data.user.name} 👋
             </h1>
@@ -82,7 +82,7 @@ export default function Dashboard() {
       </Reveal>
 
       {/* Stat cards */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-4" data-demo-tour="dash-stats">
         {[
           { k: "Vehicles", v: data.stats.vehicles, icon: "🚗", to: "/garage" },
           { k: "Actions needed", v: data.stats.actions, icon: "⚠️", scrollTo: "action-required" },
@@ -121,7 +121,7 @@ export default function Dashboard() {
         {/* Action required */}
         <div className="col-lg-4" id="action-required">
           <Reveal delay={0.1}>
-            <div className="card-surface p-4 h-100">
+            <div className="card-surface p-4 h-100" data-demo-tour="dash-reminders">
               <h5 style={{ fontWeight: 700 }} className="mb-3">Action Required</h5>
               <div className="d-flex flex-column gap-3">
                 {data.reminders.map((r) => {

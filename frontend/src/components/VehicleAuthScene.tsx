@@ -79,16 +79,6 @@ export default function VehicleAuthScene() {
         <span className="auth-scene__signal-light auth-scene__signal-light--g" />
       </motion.div>
 
-      <div className="auth-scene__stats">
-        <motion.div className="glass auth-scene__stat" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}>
-          <div className="text-grad" style={{ fontWeight: 800, fontSize: "1.4rem" }}>86</div>
-          <div className="text-muted-2" style={{ fontSize: ".72rem" }}>Compliance</div>
-        </motion.div>
-        <motion.div className="glass auth-scene__stat" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.7 }}>
-          <div className="text-grad" style={{ fontWeight: 800, fontSize: "1.4rem" }}>3</div>
-          <div className="text-muted-2" style={{ fontSize: ".72rem" }}>Vehicles</div>
-        </motion.div>
-      </div>
     </div>
   );
 }

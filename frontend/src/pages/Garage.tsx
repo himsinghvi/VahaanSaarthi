@@ -265,11 +265,16 @@ export default function Garage() {
         )}
       </AnimatePresence>
 
-      <div className="row g-4">
+      <div className="row g-4" data-demo-tour="garage-grid">
         {vehicles.map((v, i) => (
           <div className="col-md-6 col-lg-4" key={v.id}>
             <Reveal delay={i * 0.06}>
-              <motion.div className="card-surface p-4 h-100" whileHover={{ y: -8 }} style={{ background: `linear-gradient(160deg, ${v.color_hex}1f, transparent)` }}>
+              <motion.div
+                className="card-surface p-4 h-100"
+                data-demo-tour={v.id === "veh_creta" ? "garage-creta" : undefined}
+                whileHover={{ y: -8 }}
+                style={{ background: `linear-gradient(160deg, ${v.color_hex}1f, transparent)` }}
+              >
                 <div className="d-flex justify-content-between align-items-start">
                   <div style={{ fontSize: "2.6rem" }}>{v.emoji}</div>
                   <div className="d-flex gap-2 align-items-center">

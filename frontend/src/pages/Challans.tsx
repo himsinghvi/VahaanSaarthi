@@ -46,7 +46,7 @@ export default function Challans() {
         <div className="col-md-4"><div className="card-surface p-4"><div className="text-muted-2">Paid this year</div><div className="display" style={{ fontSize: "2.4rem", fontWeight: 800 }}>{challans.filter((c) => c.status === "paid").length}</div></div></div>
       </div>
 
-      <div className="row g-3">
+      <div className="row g-3" data-demo-tour="challans-list">
         {challans.map((c, i) => (
           <div className="col-lg-6" key={c.id}>
             <Reveal delay={i * 0.05}>

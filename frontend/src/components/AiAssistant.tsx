@@ -10,7 +10,7 @@ import ChatMessageBody from "./ChatMessageBody";
 interface Msg { role: "user" | "assistant"; content: string; res?: ChatResponse; }
 
 export default function AiAssistant() {
-  const { open, vehicleId, toggleAssistant, closeAssistant } = useAssistant();
+  const { open, vehicleId, toggleAssistant, closeAssistant, openAssistant } = useAssistant();
   const { user } = useAuth();
   const userName = user?.name?.split(" ")[0] ?? "there";
   const [vehicle, setVehicle] = useState<Vehicle | null>(null);
@@ -22,10 +22,22 @@ export default function AiAssistant() {
   const nav = useNavigate();
   const bodyRef = useRef<HTMLDivElement>(null);
   const ctxKey = useRef("");
+  const pendingDemoQ = useRef<string | null>(null);
 
   useEffect(() => {
     bodyRef.current?.scrollTo({ top: bodyRef.current.scrollHeight, behavior: "smooth" });
   }, [msgs, busy, open]);
+
+  useEffect(() => {
+    const onDemoAsk = (e: Event) => {
+      const q = (e as CustomEvent<string>).detail;
+      if (!q) return;
+      openAssistant();
+      pendingDemoQ.current = q;
+    };
+    window.addEventListener("demo-tour-ask", onDemoAsk);
+    return () => window.removeEventListener("demo-tour-ask", onDemoAsk);
+  }, [openAssistant]);
 
   // Reload greeting + suggestions whenever the active vehicle context changes.
   useEffect(() => {
@@ -89,6 +101,13 @@ export default function AiAssistant() {
     }
   };
 
+  useEffect(() => {
+    if (!open || loadingCtx || busy || !pendingDemoQ.current) return;
+    const q = pendingDemoQ.current;
+    pendingDemoQ.current = null;
+    void send(q);
+  }, [open, loadingCtx, busy]);
+
   const goAction = (a: ActionCard) => {
     if (a.route) {
       closeAssistant();
@@ -105,6 +124,7 @@ export default function AiAssistant() {
       <motion.button
         type="button"
         className="chat-fab"
+        data-demo-tour="ai-fab"
         onClick={toggleAssistant}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.92 }}
@@ -119,6 +139,7 @@ export default function AiAssistant() {
         {open && (
           <motion.div
             className="chat-panel glass"
+            data-demo-tour="ai-panel"
             initial={{ opacity: 0, y: 30, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.96 }}

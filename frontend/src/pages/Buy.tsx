@@ -5,7 +5,13 @@ import {
 } from "recharts";
 import { api, inr, inrShort } from "../api";
 import Page from "../components/Page";
+import DealerRecommendations from "../components/DealerRecommendations";
 import { Reveal, SectionTitle } from "../components/Ui";
+
+const PURCHASE_TYPES = [
+  { id: "new" as const, label: "New car", sub: "Showroom / brand-new vehicle" },
+  { id: "used" as const, label: "Used / Pre-owned", sub: "Certified sellers & local dealers nearby" },
+];
 
 const BUDGETS = ["Under ₹10 lakh", "₹10–20 lakh", "₹20–40 lakh", "₹40 lakh+"];
 const USAGE = ["Mostly city", "Highway", "Mixed"];
@@ -15,6 +21,7 @@ const FUELS = ["Any", "Petrol", "Diesel", "CNG", "EV"];
 
 export default function Buy() {
   const [step, setStep] = useState(0);
+  const [purchaseType, setPurchaseType] = useState<"new" | "used">("new");
   const [budget, setBudget] = useState("₹10–20 lakh");
   const [usage, setUsage] = useState("Mostly city");
   const [km, setKm] = useState(1200);
@@ -32,11 +39,14 @@ export default function Buy() {
       const { data } = await api.post("/buy/advisor", {
         budget, usage, monthly_km: km, priorities, passengers, fuel_preference: fuelPref,
       });
-      setResult(data); setStep(5);
+      setResult(data);
+      setStep(6);
     } finally { setBusy(false); }
   };
 
+  const topMatch = result?.matches?.[0]?.name as string | undefined;
   const medals = ["🥇", "🥈", "🥉"];
+  const lastStep = 6;
 
   return (
     <Page>
@@ -45,9 +55,8 @@ export default function Buy() {
       <div className="row g-4 mt-1">
         <div className="col-lg-7">
           <div className="card-surface p-4">
-            {/* progress */}
             <div className="d-flex gap-2 mb-4">
-              {[0, 1, 2, 3, 4].map((s) => (
+              {Array.from({ length: lastStep }, (_, s) => s).map((s) => (
                 <div key={s} style={{ height: 6, flex: 1, borderRadius: 999, background: s <= step ? "var(--grad)" : "rgba(255,255,255,.08)" }} />
               ))}
             </div>
@@ -55,6 +64,28 @@ export default function Buy() {
             <AnimatePresence mode="wait">
               <motion.div key={step} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
                 {step === 0 && (
+                  <div>
+                    <h5 style={{ fontWeight: 700 }}>What are you buying?</h5>
+                    <p className="text-muted-2" style={{ fontSize: ".9rem" }}>Used-car buyers get nearby dealer & seller recommendations with quote requests.</p>
+                    <div className="row g-2 mt-2">
+                      {PURCHASE_TYPES.map((p) => (
+                        <div className="col-md-6" key={p.id}>
+                          <div
+                            className={`opt h-100 ${purchaseType === p.id ? "sel" : ""}`}
+                            onClick={() => setPurchaseType(p.id)}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => e.key === "Enter" && setPurchaseType(p.id)}
+                          >
+                            <div style={{ fontWeight: 700 }}>{p.label}</div>
+                            <div className="text-muted-2 mt-1" style={{ fontSize: ".82rem" }}>{p.sub}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {step === 1 && (
                   <div>
                     <h5 style={{ fontWeight: 700 }}>What's your budget?</h5>
                     <div className="row g-2 mt-2">
@@ -64,7 +95,7 @@ export default function Buy() {
                     </div>
                   </div>
                 )}
-                {step === 1 && (
+                {step === 2 && (
                   <div>
                     <h5 style={{ fontWeight: 700 }}>How much do you drive?</h5>
                     <div className="d-flex gap-2 mt-2 flex-wrap">
@@ -74,7 +105,7 @@ export default function Buy() {
                     <input type="range" min={200} max={4000} step={100} value={km} onChange={(e) => setKm(+e.target.value)} className="form-range" />
                   </div>
                 )}
-                {step === 2 && (
+                {step === 3 && (
                   <div>
                     <h5 style={{ fontWeight: 700 }}>What matters most?</h5>
                     <div className="d-flex gap-2 mt-2 flex-wrap">
@@ -82,7 +113,7 @@ export default function Buy() {
                     </div>
                   </div>
                 )}
-                {step === 3 && (
+                {step === 4 && (
                   <div>
                     <h5 style={{ fontWeight: 700 }}>Passengers usually?</h5>
                     <div className="d-flex gap-2 mt-2 flex-wrap">
@@ -90,7 +121,7 @@ export default function Buy() {
                     </div>
                   </div>
                 )}
-                {step === 4 && (
+                {step === 5 && (
                   <div>
                     <h5 style={{ fontWeight: 700 }}>Fuel preference?</h5>
                     <div className="d-flex gap-2 mt-2 flex-wrap">
@@ -98,7 +129,7 @@ export default function Buy() {
                     </div>
                   </div>
                 )}
-                {step === 5 && result && (
+                {step === 6 && result && (
                   <div>
                     <h5 style={{ fontWeight: 700 }} className="mb-3">Your best matches ✨</h5>
                     {result.matches.map((m: any, i: number) => (
@@ -117,20 +148,32 @@ export default function Buy() {
                       </motion.div>
                     ))}
                     <div className="glass p-3"><div className="pill mb-2" style={{ fontSize: ".7rem" }}>🧠 AI Verdict</div>{result.verdict}</div>
+
+                    <DealerRecommendations
+                      purchaseType={purchaseType}
+                      budget={budget}
+                      vehicleInterest={topMatch}
+                    />
                   </div>
                 )}
               </motion.div>
             </AnimatePresence>
 
             <div className="d-flex justify-content-between mt-4">
-              {step > 0 && step < 5 && <button className="btn-ghost" onClick={() => setStep(step - 1)}>← Back</button>}
-              {step === 5 && <button className="btn-ghost" onClick={() => setStep(0)}>↺ Start over</button>}
+              {step > 0 && step < lastStep && <button className="btn-ghost" onClick={() => setStep(step - 1)}>← Back</button>}
+              {step === lastStep && <button className="btn-ghost" onClick={() => { setStep(0); setResult(null); }}>↺ Start over</button>}
               <div className="ms-auto">
-                {step < 4 && <button className="btn-grad" onClick={() => setStep(step + 1)}>Next →</button>}
-                {step === 4 && <button className="btn-grad" onClick={recommend} disabled={busy}>{busy ? "Analyzing…" : "✨ Get Recommendations"}</button>}
+                {step < 5 && <button className="btn-grad" onClick={() => setStep(step + 1)}>Next →</button>}
+                {step === 5 && <button className="btn-grad" onClick={recommend} disabled={busy}>{busy ? "Analyzing…" : "✨ Get Recommendations"}</button>}
               </div>
             </div>
           </div>
+
+          {purchaseType === "used" && step < lastStep && (
+            <Reveal delay={0.1}>
+              <DealerRecommendations purchaseType={purchaseType} budget={budget} />
+            </Reveal>
+          )}
         </div>
 
         <div className="col-lg-5">

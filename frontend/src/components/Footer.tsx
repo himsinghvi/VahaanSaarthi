@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import AppLogo from "./AppLogo";
 import BrandName from "./BrandName";
 
 export default function Footer() {
@@ -7,8 +8,8 @@ export default function Footer() {
       <div className="container">
         <div className="row g-4">
           <div className="col-lg-4">
-            <div className="brand d-flex align-items-center gap-2" style={{ fontWeight: 800, fontSize: "1.4rem" }}>
-              🚗 <BrandName />
+            <div className="brand d-flex align-items-center gap-2">
+              <AppLogo variant="full" height={32} />
             </div>
             <p className="text-muted-2 mt-3" style={{ maxWidth: 320 }}>
               The Vehicle Ownership Operating System for India. Buy → Register → Insure →
@@ -43,7 +44,6 @@ export default function Footer() {
         <hr className="divider my-4" />
         <div className="d-flex flex-wrap justify-content-between text-muted-2" style={{ fontSize: ".85rem" }}>
           <span>© 2026 <BrandName />. AI estimates are guidance, not official confirmations.</span>
-          <span>VAHAN · Sarathi · DigiLocker aware</span>
         </div>
       </div>
     </footer>
